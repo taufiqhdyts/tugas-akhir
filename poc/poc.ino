@@ -1,4 +1,5 @@
 const int ANALOG_PIN = 4;
+const int LED_PIN = 2;
 const int BUZZER_PIN = 25;
 
 const float KNOWN_RESISTOR = 90.0; // ohm
@@ -8,7 +9,8 @@ const int ADC_MAX_VALUE = 4095; // 12 bit
 void setup() {
   Serial.begin(115200);
   analogSetAttenuation(ADC_11db); // atenuasi 11dB
-  pinMode(BUZZER_PIN, OUTPUT);   // Configure the buzzer pin as an output
+  pinMode(BUZZER_PIN, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
 }
 
 void loop() {
@@ -23,10 +25,12 @@ void loop() {
     unknownResistor = 999999999.0; // open
   }
 
-  if (unknownResistor < 900.0) {
-    tone(BUZZER_PIN, 1000); 
+  if (unknownResistor < 1050.0) {
+    tone(BUZZER_PIN, 1000);
+    digitalWrite(LED_PIN, 1);
   } else {
     noTone(BUZZER_PIN);
+    digitalWrite(LED_PIN, 0);
   }
 
   // print
